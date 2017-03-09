@@ -1,25 +1,8 @@
-from flask import Flask, render_template, request, redirect, make_response
-import astrodbkit
-
-import os
-import sys
-from cStringIO import StringIO
-from bokeh.plotting import figure
-from bokeh.embed import components
-from bokeh.models import ColumnDataSource, HoverTool, OpenURL, TapTool
-from bokeh.models.widgets import Panel, Tabs
-from astropy import units as u
-from astropy.coordinates import SkyCoord
-import pandas as pd
-from collections import OrderedDict
-from math import sqrt
-import numpy as np
+from flask import Flask, render_template, request, redirect
 
 from astropy.time import Time
 from astropy.coordinates import EarthLocation, get_sun, AltAz
 from moon import moon_distance, get_umbra, estimate_umbra
-from datetime import datetime
-import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
