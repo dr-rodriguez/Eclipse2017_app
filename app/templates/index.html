@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AMNH Eclipse 2017 App</title>
+</head>
+<body>
+
+<div class=page>
+
+    <h1>AMNH 2017 Eclipse Application</h1>
+
+    <div class=metanav>
+        <p></p>
+
+        <form id='queryform' method='post' action='runcalc' >
+            <p> Your address or location (eg, Nashville, TN):<br>
+                <input TYPE="TEXT" name="location" SIZE=20 VALUE="{{location}}">
+            </p>
+            <p> Contact 2 Time UTC (eg, 17:48:00):<br>
+                <input TYPE="TEXT" name="c2time" SIZE=20 VALUE="{{c2time}}">
+            </p>
+            <p> Contact 3 Time UTC:<br>
+                <input TYPE="TEXT" name="c3time" SIZE=20 VALUE="{{c3time}}">
+            </p>
+            <p>
+                <input type='submit' value='Submit' />
+            </p>
+        </form>
+
+        <form action="clear">
+            <input type="submit" value="Clear All Values">
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

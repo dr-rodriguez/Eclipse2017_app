@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AMNH Eclipse 2017 App</title>
+</head>
+<body>
+
+<div class=page>
+
+    <h1>AMNH 2017 Eclipse Application</h1>
+
+    <div class=metanav>
+        <p></p>
+
+        <form id='queryform' method='post' action='runcalc' >
+            <p>Your information: <br>
+                For {{location}}, your latitude and longitude are {{lat}}, {{long}} degrees.
+                The Sun's altitude was {{sun_alt}} degrees at time {{c2time}} UTC.
+            </p>
+            <p> Your results: <br>
+
+                The estimated distance to the moon is <strong>{{d_est}} km</strong>, which differs from
+                the actual distance at that time ({{d_real}} km) by {{percent_diff}}%.
+                <br>
+                This was estimated from your perceived umbra diameter of {{su_est}} km, though the actual
+                umbra diameter should have been {{su_real}} km.
+            </p>
+
+            <p><a href="index">Return to form</a></p>
+
+    </div>
+</div>
+
+</body>
+</html>
