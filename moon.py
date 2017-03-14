@@ -55,11 +55,24 @@ def estimate_umbra(loc, t2, t3, verbose=False):
     df['sep'] = ang_sep(loc, df['clon'], df['clat']) * 2 * np.pi * R_earth.to(u.km).value / 360.
     ind = df[df['sep'] == min(df['sep'])].index[0]
 
+    # Replace with finer version
+    x2 = 41.
+    x1 = 0.
+    df_fine = pd.DataFrame(np.arange(x1, x2, 1), columns=['xval'])
+    df_fine['clat'] = make_fine('clat', ind, df, x1=x1, x2=x2)
+    df_fine['clon'] = make_fine('clon', ind, df, x1=x1, x2=x2)
+    df_fine['width'] = make_fine('width', ind, df, x1=x1, x2=x2)
+
+    # Get new best index
+    df_fine['sep'] = ang_sep(loc, df_fine['clon'], df_fine['clat']) * 2 * np.pi * R_earth.to(u.km).value / 360.
+    ind = df_fine[df_fine['sep'] == min(df_fine['sep'])].index[0]
+    df = df_fine
+
     # Get the angle
     factor = np.pi / 180
     lat1 = df.loc[ind, 'clat'] * factor
-    lat2 = lat1 * factor
-    dlon = df.loc[ind, 'clon'] - df.loc[ind - 1, 'clon'] * factor
+    lat2 = lat1
+    dlon = (df.loc[ind, 'clon'] - df.loc[ind - 1, 'clon']) * factor
     theta1 = np.arctan2(np.sin(dlon) * np.cos(lat2),
                         np.cos(lat1) * np.sin(lat2) - np.sin(lat1) * np.cos(lat2) * np.cos(dlon)) / factor
     lat2 = df.loc[ind - 1, 'clat'] * factor
@@ -69,7 +82,7 @@ def estimate_umbra(loc, t2, t3, verbose=False):
 
     # Modify the umbra size
     # TODO: This still needs more work as it doesn't give an approximately correct value
-    ratio = df.loc[ind, 'width'] / (df.loc[ind, 'width']-df.loc[ind, 'sep'])
+    ratio = 0.5*df.loc[ind, 'width'] / (0.5*df.loc[ind, 'width']-df.loc[ind, 'sep'])
     su2 = su * ratio / np.cos(theta * factor)
 
     if verbose:
@@ -173,3 +186,11 @@ def ang_sep(loc, ra1, dec1):
 
     # Output in degrees
     return np.arctan2(numerator, denominator) / factor
+
+
+def make_fine(col, ind, df, x1=0, x2=21):
+    # Create a finer version of the path
+    y2 = df.loc[ind+1, col]
+    y1 = df.loc[ind-1, col]
+    m = (y2-y1)/(x2-x1)
+    return np.arange(x1, x2, 1) * m + y1
