@@ -33,7 +33,8 @@ def moon_distance(loc, t2, t3):
                                                                                                 moon.distance / (
                                                                                                 dm * u.km),
                                                                                                 dm * u.km - moon.distance))
-    return dm, moon.distance.to(u.km).value
+    # moon.distance is from surface, not center
+    return dm, moon.distance.to(u.km).value + re
 
 
 def estimate_umbra(loc, t2, t3, verbose=False):
